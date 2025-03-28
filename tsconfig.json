@@ -4,6 +4,7 @@
     "moduleResolution": "nodenext",
     "target": "ESNext",
     "outDir": "dist",
+    "isolatedModules": true
   },
   "include": [
     "src/**/*.ts"
