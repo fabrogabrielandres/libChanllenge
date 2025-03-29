@@ -5,6 +5,10 @@ describe("ScoreBoard", () => {
     createScoreBoard();
 
   beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  beforeEach(() => {
     createScoreBoard();
   });
 
@@ -91,8 +95,54 @@ describe("ScoreBoard", () => {
   /************************************** Updating Test ****************************************************/
   test("Test 10 ---> Finish currently game", () => {
     resetGames();
-    expect(() => finishMatch("lkasjkjklajkfljfalkjf")).toThrow("Game not found");
+    expect(() => finishMatch("lkasjkjklajkfljfalkjf")).toThrow(
+      "Game not found"
+    );
     createMatch("Korea", "Japon");
     expect(() => finishMatch("")).toThrow("Game not found");
+  });
+
+  test("Test 11 ---> ", () => {
+    resetGames();
+    let gameA = createMatch("México", "Canadá");
+    let gameB = createMatch("España", "Brasil");
+    let gameC = createMatch("Alemania ", "Francia");
+    let gameD = createMatch("Uruguay", " Italia");
+    let gameE = createMatch("Argentina ", " Australia ");
+    updateGame(gameA.id, 0, 5);  //  
+    updateGame(gameB.id, 10, 2); //12 Second "España", "Brasil"
+    updateGame(gameC.id, 2, 2); //4  Fourt "España", "Brasil"
+    updateGame(gameD.id, 6, 6); //12 Thirt
+    updateGame(gameE.id, 3, 1); //4  Five  "Argentina ", " Australia "
+    updateGame(gameA.id, 8, 4); //12 First "México", "Canadá"
+    const result = getGames();
+    const simplifiedResult = result.map(({ localTeam, visitTeam }) => ({
+      localTeam,
+      visitTeam,
+    }));
+
+    let tobeArray = [
+      {
+        localTeam: "méxico",
+        visitTeam: "canadá",
+      },
+      {
+        localTeam: "españa",
+        visitTeam: "brasil",
+      },
+      {
+        localTeam: "uruguay",
+        visitTeam: "italia",
+      },
+      {
+        localTeam: "alemania",
+        visitTeam: "francia",
+      },
+      {
+        localTeam: "argentina",
+        visitTeam: "australia",
+      },
+    ];
+    expect(simplifiedResult).toEqual(tobeArray);
   });
 });

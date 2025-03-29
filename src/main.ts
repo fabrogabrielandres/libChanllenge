@@ -112,7 +112,15 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
     return finishedMatch;
   };
 
-  const getGames = () => games;
+  const getGames = () => {
+    let gameOrganized = games.sort((teamA, teamB) => {
+      let totalMatA = teamA.localScore + teamA.visitScore;
+      let totalMatB = teamB.localScore + teamB.visitScore;
+      if (totalMatB != totalMatA) return totalMatB - totalMatA;
+      if(teamB.startedGame > teamA.startedGame)return 1
+    });
+    return gameOrganized;
+  };
   const resetGames = () => {
     games = [];
   };
