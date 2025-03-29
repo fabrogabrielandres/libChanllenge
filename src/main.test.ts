@@ -61,7 +61,7 @@ describe("ScoreBoard", () => {
     createMatch("Korea", "Japon");
     expect(() => {
       updateGame("456asdf65asdfasdf", 4, 2);
-    }).toThrow("it is not allowed add negative number to update the score");
+    }).toThrow("it is not found the Id");
   });
   test("Test 8 ---> Update teams with wrong parameters", () => {
     resetGames();

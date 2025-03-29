@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 interface CreateScoreBoardInterface {
   createMatch: (local: string, visit: string) => GameInterface;
   getGames: () => Array<GameInterface>;
@@ -9,6 +10,7 @@ interface GameInterface {
   startedGame?: Date;
   localTeam: string;
   visitTeam: string;
+  id:string
 }
 
 export const createScoreBoard = (): CreateScoreBoardInterface => {
@@ -46,6 +48,7 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
         startedGame: new Date(),
         localTeam,
         visitTeam,
+        id:uuidv4()
       };
       return newGame;
     }
@@ -59,10 +62,6 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
     return newgames;
   };
 
-  const getGames = () => games;
-  const resetGames = () => {
-    games = [];
-  };
   const updateGame = (
     id: string,
     updateLocal: number,
@@ -73,13 +72,22 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
         "it is not allowed add negative number to update the score"
       );
     }
-    if (typeof updateLocal != "number" ||  typeof updateVisitor != "number"  ) {
-      throw new Error(
-        "only insert numbers to update the score"
-      );
+    if (typeof updateLocal != "number" || typeof updateVisitor != "number") {
+      throw new Error("only insert numbers to update the score");
     }
+    
+    // let findId = games.findIndex((game)=>{game.})
+
+    // if(true){
+    //     throw new Error("it is not found the Id");        
+    // }
+
   };
 
+  const getGames = () => games;
+  const resetGames = () => {
+    games = [];
+  };
   return {
     getGames,
     createMatch,
