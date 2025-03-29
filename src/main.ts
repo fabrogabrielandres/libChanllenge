@@ -2,6 +2,7 @@ interface CreateScoreBoardInterface {
   createMatch: (local: string, visit: string) => GameInterface;
   getGames: () => Array<GameInterface>;
   resetGames: () => void;
+  updateGame: (id: string, updateLocal: number, updateVisitor: number) => void;
 }
 
 interface GameInterface {
@@ -62,10 +63,22 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
   const resetGames = () => {
     games = [];
   };
+  const updateGame = (
+    id: string,
+    updateLocal: number,
+    updateVisitor: number
+  ) => {
+    if (updateLocal < 0 || updateVisitor < 0) {
+      throw new Error(
+        "it is not allowed add negative number to update the score"
+      );
+    }
+  };
 
   return {
     getGames,
     createMatch,
     resetGames,
+    updateGame,
   };
 };

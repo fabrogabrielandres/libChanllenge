@@ -1,7 +1,7 @@
 import { createScoreBoard } from "./main";
 
 describe("ScoreBoard", () => {
-  let { createMatch, getGames, resetGames } = createScoreBoard();
+  let { createMatch, getGames, resetGames,updateGame } = createScoreBoard();
 
   beforeEach(() => {
     createScoreBoard();
@@ -38,10 +38,19 @@ describe("ScoreBoard", () => {
   });
 
   test("Test 5 --->  insert teams already playing  ", () => {
-    resetGames();
     createMatch("Bulgaria", "Mexico");
     expect(() => {
       createMatch("Team A", "Mexico");
     }).toThrow("Teams are playing");
   });
+
+
+  test("Test 6 ---> Update teams",()=>{
+    resetGames();
+    createMatch("Korea","Japon")
+    expect(()=>{
+        updateGame("",-10,3)
+    }).toThrow("it is not allowed add negative number to update the score")
+  })
+
 });
