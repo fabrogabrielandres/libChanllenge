@@ -8,6 +8,7 @@ interface CreateScoreBoardInterface {
     updateLocal: number,
     updateVisitor: number
   ) => GameInterface;
+  finishMatch: (id: string) => void;
 }
 
 interface GameInterface {
@@ -101,6 +102,16 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
     return updateGame;
   };
 
+  const finishMatch = (id: string) => {
+    let gameIdx = games.findIndex((p) => p.id === id);
+
+    if (gameIdx === -1 || games.length == 0) {
+      throw new Error("Game not found");
+    }
+    const [finishedMatch] = games.splice(gameIdx, 1);
+    return finishedMatch;
+  };
+
   const getGames = () => games;
   const resetGames = () => {
     games = [];
@@ -110,5 +121,6 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
     createMatch,
     resetGames,
     updateGame,
+    finishMatch,
   };
 };

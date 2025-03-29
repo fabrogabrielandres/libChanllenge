@@ -1,7 +1,8 @@
 import { createScoreBoard } from "./main";
 
 describe("ScoreBoard", () => {
-  let { createMatch, getGames, resetGames, updateGame } = createScoreBoard();
+  let { createMatch, getGames, resetGames, updateGame, finishMatch } =
+    createScoreBoard();
 
   beforeEach(() => {
     createScoreBoard();
@@ -80,10 +81,18 @@ describe("ScoreBoard", () => {
   test("Test 9 ---> Check score update", () => {
     resetGames();
     let gamecreated = createMatch("Korea", "Japon");
-    let gameUpdated = updateGame(gamecreated.id,2,4)
-    let aftervaluelocal = gameUpdated.localScore
-    let aftervaluevisit = gameUpdated.visitScore
+    let gameUpdated = updateGame(gamecreated.id, 2, 4);
+    let aftervaluelocal = gameUpdated.localScore;
+    let aftervaluevisit = gameUpdated.visitScore;
     expect(aftervaluelocal).toBe(2);
     expect(aftervaluevisit).toBe(4);
+  });
+
+  /************************************** Updating Test ****************************************************/
+  test("Test 10 ---> Finish currently game", () => {
+    resetGames();
+    expect(() => finishMatch("lkasjkjklajkfljfalkjf")).toThrow("Game not found");
+    createMatch("Korea", "Japon");
+    expect(() => finishMatch("")).toThrow("Game not found");
   });
 });
