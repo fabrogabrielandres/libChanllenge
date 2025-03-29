@@ -19,23 +19,23 @@ describe("ScoreBoard", () => {
     expect(game.visitTeam).toBe("holanda");
   });
 
-  test("Test 3 --->  Try to insert empty values  ", () => {
+  test("Test 3 --->  Insert empty teams names", () => {
     expect(() => createMatch("Portugal", "")).toThrow(
-      "Home and away teams cannot be the same"
+      "One of those names of team are empty"
     );
     expect(() => createMatch("c", "")).toThrow(
-      "Home and away teams cannot be the same"
+      "One of those names of team are empty"
     );
     expect(() => createMatch("", "")).toThrow(
-      "Home and away teams cannot be the same"
+      "One of those names of team are empty"
     );
   });
 
-  test("Test 4 --->  insert teams already playing  ", () => {
+  test("Test 5 --->  insert teams already playing  ", () => {
     resetGames();
     createMatch("Bulgaria", "Mexico");
     expect(() => {
       createMatch("Team A", "Mexico");
-    }).toThrow("Team A is already in a match");
+    }).toThrow("Teams are playing");
   });
 });

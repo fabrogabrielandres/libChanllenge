@@ -25,24 +25,24 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
   };
 
   const startGame = (local: string, visit: string) => {
-    let localTeam = local.toLocaleLowerCase().trim();
-    let visitTeam = visit.toLocaleLowerCase().trim();
+    let localTeam = local;
+    let visitTeam = visit;
     if (!local || !visit) {
-      throw new Error("Home and away teams cannot be the same");
+      throw new Error("One of those names of team are empty");
     }
 
     let isPlaying = findTeamInGames(local, visit);
 
     if (isPlaying) {
-      throw new Error("Team A is already in a match");
+      throw new Error("Teams are playing");
+    } else {
+      let newGame = {
+        startedGame: new Date(),
+        localTeam,
+        visitTeam,
+      };
+      return newGame;
     }
-
-    let newGame = {
-      startedGame: new Date(),
-      localTeam,
-      visitTeam,
-    };
-    return newGame;
   };
 
   const createMatch = (local: string, visit: string) => {
@@ -61,6 +61,6 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
   return {
     getGames,
     createMatch,
-    resetGames
+    resetGames,
   };
 };
