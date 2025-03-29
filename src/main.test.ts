@@ -31,6 +31,12 @@ describe("ScoreBoard", () => {
     );
   });
 
+  test("Test 4 --->  Insert equal teams names", () => {
+    expect(() => createMatch("Korea", "Korea")).toThrow(
+      "it is not allowed to insert team names as home and away team names at the some time"
+    );
+  });
+
   test("Test 5 --->  insert teams already playing  ", () => {
     resetGames();
     createMatch("Bulgaria", "Mexico");

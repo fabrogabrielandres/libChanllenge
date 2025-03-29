@@ -30,6 +30,11 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
     if (!local || !visit) {
       throw new Error("One of those names of team are empty");
     }
+    if (local == visit) {
+      throw new Error(
+        "it is not allowed to insert team names as home and away team names at the some time"
+      );
+    }
 
     let isPlaying = findTeamInGames(local, visit);
 
