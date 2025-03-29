@@ -73,6 +73,11 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
         "it is not allowed add negative number to update the score"
       );
     }
+    if (typeof updateLocal != "number" ||  typeof updateVisitor != "number"  ) {
+      throw new Error(
+        "only insert numbers to update the score"
+      );
+    }
   };
 
   return {
