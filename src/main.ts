@@ -1,16 +1,22 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 interface CreateScoreBoardInterface {
   createMatch: (local: string, visit: string) => GameInterface;
   getGames: () => Array<GameInterface>;
   resetGames: () => void;
-  updateGame: (id: string, updateLocal: number, updateVisitor: number) => void;
+  updateGame: (
+    id: string,
+    updateLocal: number,
+    updateVisitor: number
+  ) => GameInterface;
 }
 
 interface GameInterface {
   startedGame?: Date;
   localTeam: string;
   visitTeam: string;
-  id:string
+  id: string;
+  localScore: number;
+  visitScore: number;
 }
 
 export const createScoreBoard = (): CreateScoreBoardInterface => {
@@ -48,7 +54,9 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
         startedGame: new Date(),
         localTeam,
         visitTeam,
-        id:uuidv4()
+        id: uuidv4().toString(),
+        localScore: 0,
+        visitScore: 0,
       };
       return newGame;
     }
@@ -66,7 +74,7 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
     id: string,
     updateLocal: number,
     updateVisitor: number
-  ) => {
+  ): GameInterface => {
     if (updateLocal < 0 || updateVisitor < 0) {
       throw new Error(
         "it is not allowed add negative number to update the score"
@@ -75,13 +83,22 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
     if (typeof updateLocal != "number" || typeof updateVisitor != "number") {
       throw new Error("only insert numbers to update the score");
     }
-    
-    // let findId = games.findIndex((game)=>{game.})
 
-    // if(true){
-    //     throw new Error("it is not found the Id");        
-    // }
+    const findIdx = games.findIndex((p) => p.id === id);
 
+    if (findIdx == -1) {
+      throw new Error(`it is not found the Id`);
+    }
+
+    const updateGame: GameInterface = {
+      ...games.at(findIdx),
+      localScore: updateLocal,
+      visitScore: updateVisitor,
+    };
+    games.at(findIdx).localScore = updateLocal;
+    games.at(findIdx).visitScore = updateVisitor;
+
+    return updateGame;
   };
 
   const getGames = () => games;

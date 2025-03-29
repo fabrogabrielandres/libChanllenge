@@ -7,10 +7,16 @@ describe("ScoreBoard", () => {
     createScoreBoard();
   });
 
-  test("Test 1 --->  Create new Game", () => {
+  test("Test 1 --->  Create a new game with uppercase and lowercase names", () => {
     let game = createMatch("ArgenTina", "Germany");
     expect(game.localTeam).toBe("argentina");
     expect(game.visitTeam).toBe("germany");
+  });
+
+  test("Test 1B --->  Create a new game and init the score with 0 fow both Teams", () => {
+    let game = createMatch("Camerun", "Senegal");
+    expect(game.visitScore).toBe(0);
+    expect(game.visitScore).toBe(0);
   });
 
   test("Test 2 --->  Create new game with teams some space at the end , or at the final  ", () => {
@@ -67,7 +73,17 @@ describe("ScoreBoard", () => {
     resetGames();
     createMatch("Korea", "Japon");
     expect(() => {
-      updateGame("456asdf65asdfasdf", "4" as any, "//**" as any)  
+      updateGame("456asdf65asdfasdf", "4" as any, "//**" as any);
     }).toThrow("only insert numbers to update the score");
+  });
+
+  test("Test 9 ---> Check score update", () => {
+    resetGames();
+    let gamecreated = createMatch("Korea", "Japon");
+    let gameUpdated = updateGame(gamecreated.id,2,4)
+    let aftervaluelocal = gameUpdated.localScore
+    let aftervaluevisit = gameUpdated.visitScore
+    expect(aftervaluelocal).toBe(2);
+    expect(aftervaluevisit).toBe(4);
   });
 });
