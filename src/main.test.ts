@@ -1,7 +1,7 @@
 import { createScoreBoard } from "./main";
 
 describe("ScoreBoard", () => {
-  let { createMatch, getGames, resetGames,updateGame } = createScoreBoard();
+  let { createMatch, getGames, resetGames, updateGame } = createScoreBoard();
 
   beforeEach(() => {
     createScoreBoard();
@@ -44,13 +44,30 @@ describe("ScoreBoard", () => {
     }).toThrow("Teams are playing");
   });
 
+  /************************************** Updating Test ****************************************************/
 
-  test("Test 6 ---> Update teams",()=>{
+  test("Test 6 ---> Update teams", () => {
     resetGames();
-    createMatch("Korea","Japon")
-    expect(()=>{
-        updateGame("",-10,3)
-    }).toThrow("it is not allowed add negative number to update the score")
-  })
-
+    createMatch("Korea", "Japon");
+    expect(() => {
+      updateGame("", -10, 3);
+    }).toThrow("it is not allowed add negative number to update the score");
+    expect(() => {
+      updateGame("", 10, -3);
+    }).toThrow("it is not allowed add negative number to update the score");
+  });
+  test("Test 7 ---> Update teams with wrong id", () => {
+    resetGames();
+    createMatch("Korea", "Japon");
+    expect(() => {
+      updateGame("456asdf65asdfasdf", 4, 2);
+    }).toThrow("it is not allowed add negative number to update the score");
+  });
+  test("Test 8 ---> Update teams with wrong parameters", () => {
+    resetGames();
+    createMatch("Korea", "Japon");
+    expect(() => {
+      updateGame("456asdf65asdfasdf", "4" as any, "//**" as any)  
+    }).toThrow("only insert numbers to update the score");
+  });
 });
