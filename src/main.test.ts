@@ -14,7 +14,7 @@ describe("ScoreBoard", () => {
 
   test("Test 1 --->  Create a new game with uppercase and lowercase names", () => {
     let game = createMatch("ArgenTina", "Germany");
-    expect(game.localTeam).toBe("argentina");
+    expect(game.localTeam).toBe(("argentina"));
     expect(game.visitTeam).toBe("germany");
   });
 
@@ -34,7 +34,7 @@ describe("ScoreBoard", () => {
     expect(() => createMatch("Portugal", "")).toThrow(
       "One of those names of team are empty"
     );
-    expect(() => createMatch("c", "")).toThrow(
+    expect(() => createMatch("", "Colombia")).toThrow(
       "One of those names of team are empty"
     );
     expect(() => createMatch("", "")).toThrow(
@@ -44,7 +44,7 @@ describe("ScoreBoard", () => {
 
   test("Test 4 --->  Insert equal teams names", () => {
     expect(() => createMatch("Korea", "Korea")).toThrow(
-      "it is not allowed to insert team names as home and away team names at the some time"
+      "it is not allowed to insert team names as local and visit team names at the some time"
     );
   });
 
@@ -57,28 +57,29 @@ describe("ScoreBoard", () => {
 
   /************************************** Updating Test ****************************************************/
 
-  test("Test 6 ---> Update teams", () => {
+  test("Test 6 ---> Update teams with wrong id or empty id", () => {
     resetGames();
     createMatch("Korea", "Japon");
     expect(() => {
-      updateGame("", -10, 3);
-    }).toThrow("it is not allowed add negative number to update the score");
-    expect(() => {
-      updateGame("", 10, -3);
-    }).toThrow("it is not allowed add negative number to update the score");
+      updateGame("", 4, 2);
+    }).toThrow("it is not found the Id or Id is wrong");
   });
-  test("Test 7 ---> Update teams with wrong id", () => {
+
+  test("Test 7 ---> Update teams", () => {
     resetGames();
-    createMatch("Korea", "Japon");
+    let idWasCreated = createMatch("Korea", "Japon").id
     expect(() => {
-      updateGame("456asdf65asdfasdf", 4, 2);
-    }).toThrow("it is not found the Id");
+      updateGame(idWasCreated, -10, 3);
+    }).toThrow("it is not allowed add negative number to update the score");
+    expect(() => {
+      updateGame(idWasCreated, 10, -3);
+    }).toThrow("it is not allowed add negative number to update the score");
   });
   test("Test 8 ---> Update teams with wrong parameters", () => {
     resetGames();
-    createMatch("Korea", "Japon");
+    let idWasCreated = createMatch("Korea", "Japon").id
     expect(() => {
-      updateGame("456asdf65asdfasdf", "4" as any, "//**" as any);
+      updateGame(idWasCreated, "4" as any, "//**" as any);
     }).toThrow("only insert numbers to update the score");
   });
 
@@ -92,12 +93,14 @@ describe("ScoreBoard", () => {
     expect(aftervaluevisit).toBe(4);
   });
 
-  /************************************** Updating Test ****************************************************/
-  test("Test 10 ---> Finish currently game", () => {
+  // /************************************** Updating Test ****************************************************/
+  test("Test 10 ---> Finish currently game with empty id", () => {
     resetGames();
-    expect(() => finishMatch("lkasjkjklajkfljfalkjf")).toThrow(
-      "Game not found"
-    );
+    createMatch("Korea", "Japon");
+    expect(() => finishMatch("")).toThrow("Game not found");
+  });
+  test("Test 10b ---> Finish currently game with wrong id", () => {
+    resetGames();
     createMatch("Korea", "Japon");
     expect(() => finishMatch("")).toThrow("Game not found");
   });

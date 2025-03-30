@@ -42,7 +42,7 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
     }
     if (local == visit) {
       throw new Error(
-        "it is not allowed to insert team names as home and away team names at the some time"
+        "it is not allowed to insert team names as local and visit team names at the some time"
       );
     }
 
@@ -76,6 +76,12 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
     updateLocal: number,
     updateVisitor: number
   ): GameInterface => {
+    const findIdx = games.findIndex((p) => p.id === id);
+
+    if (findIdx == -1 || id.length == 0) {
+      throw new Error(`it is not found the Id or Id is wrong`);
+    }
+
     if (updateLocal < 0 || updateVisitor < 0) {
       throw new Error(
         "it is not allowed add negative number to update the score"
@@ -83,12 +89,6 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
     }
     if (typeof updateLocal != "number" || typeof updateVisitor != "number") {
       throw new Error("only insert numbers to update the score");
-    }
-
-    const findIdx = games.findIndex((p) => p.id === id);
-
-    if (findIdx == -1) {
-      throw new Error(`it is not found the Id`);
     }
 
     const updateGame: GameInterface = {
@@ -117,7 +117,7 @@ export const createScoreBoard = (): CreateScoreBoardInterface => {
       let totalMatA = teamA.localScore + teamA.visitScore;
       let totalMatB = teamB.localScore + teamB.visitScore;
       if (totalMatB != totalMatA) return totalMatB - totalMatA;
-      if(teamB.startedGame > teamA.startedGame)return 1
+      if (teamB.startedGame > teamA.startedGame) return 1;
     });
     return gameOrganized;
   };
